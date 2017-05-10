@@ -1,5 +1,6 @@
 var express = require('express')
 var bodyParser = require('body-parser')
+var cors = require('cors')
 var server = express()
 var port = 9001
 
@@ -29,9 +30,11 @@ connection.once('open', function() {
 // !!End database stuff
 
 
-//Parses the request data into jason, gives access to req.body
+//Parses the request data into json, gives access to req.body
 server.use(bodyParser.json())
 server.use(bodyParser.urlencoded({ extended: true }))
+server.use(cors())
+server.use('/', express.static(`${__dirname}/assets/`))
 
 
 server.get('/', function(req, res, next) {
@@ -103,11 +106,3 @@ server.delete('/books/:id', function(req, res, next) {
         res.send('Book Removed')
     })
  })
-
-   /* if(books[id]){
-        var book = books[id]
-        books.splice(book, 1)
-        res.send(books)
-    } else {
-        res.send(404, "Sorry, no book at that id")
-    }*/
